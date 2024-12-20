@@ -63,11 +63,15 @@ It is intended for Microsoft Job Postings to get the top words to include in you
 
 2. Open `index.html` in your web browser.
 
-3. Enter a URL (e.g., `https://example.com`) and click "Generate Table from URL".
+3. Enter a URL (e.g., `https://jobs.careers.microsoft.com/global/en/job/1730260/`) and click "Generate Table from URL".
 
 4. Alternatively, paste some text into the textarea and click "Generate Table from Text".
 
 5. Optionally, enter custom stop words in the provided textarea, separated by commas.
+
+Example:
+![image](https://github.com/user-attachments/assets/58b1e411-1112-4fa0-b4d7-8b5a77a07609)
+
 
 ## License
 
