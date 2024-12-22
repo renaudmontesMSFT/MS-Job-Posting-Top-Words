@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 20 Words Table</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        #loading {
+            display: none;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Top 20 Words Table</h1>
+    <input type="text" id="url-input" placeholder="Enter URL">
+    <button onclick="generateWordTableFromURL()">Generate Table from URL</button>
+    <textarea id="text-input" maxlength="20000" placeholder="Or paste text here..."></textarea>
+    <button onclick="generateWordTableFromText()">Generate Table from Text</button>
+    <textarea id="stopwords-input" placeholder="Enter custom stop words, separated by commas..."></textarea>
+    <div id="loading">Fetching and processing the URL...</div>
+    <table id="word-table">
+        <thead>
+            <tr>
+                <th>Word</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const defaultStopWords = new Set([
+            'microsoft','united','states','more','best','cste','our','that','citizenship','this','cst','years','s','be','will','or','is','a', 'to', 'for', 'and', 'the', 'with', 'on', 'across', 'other', 'in', 'of', 'at', 'by', 'from', 'up', 'down', 'out', 'about', 'as', 'into', 'over', 'after', 'under', 'above', 'below', 'between', 'through', 'during', 'before', 'after', 'since', 'until', 'against', 'among', 'around', 'near', 'off', 'throughout', 'despite', 'towards', 'upon', 'within', 'without', 'along', 'following', 'across', 'behind', 'beyond', 'plus', 'except', 'but', 'minus', 'underneath', 'unlike', 'via', 'versus', 'per', 'amid', 'amongst', 'alongside', 'besides', 'beside', 'concerning', 'regarding', 'despite', 'excepting', 'excluding', 'including', 'inside', 'outside', 'toward', 'towards'
+        ]);
+
+        async function fetchRenderedContent(url) {
+            console.log(`Fetching content from URL: ${url}`);
+            const response = await fetch(`http://localhost:3000/fetch-content?url=${encodeURIComponent(url)}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const text = await response.text();
+            console.log('Fetched content successfully');
+            return text;
+        }
+
+        function getCustomStopWords() {
+            const stopWordsInput = document.getElementById('stopwords-input').value;
+            return new Set(stopWordsInput.split(',').map(word => word.trim().toLowerCase()));
+        }
+
+        function extractWords(text) {
+            console.log('Extracting words from fetched content');
+            const words = text.match(/\b\w+\b/g);
+            const wordCounts = {};
+            const customStopWords = getCustomStopWords();
+            const stopWords = new Set([...defaultStopWords, ...customStopWords]);
+
+            words.forEach(word => {
+                word = word.toLowerCase();
+                if (!stopWords.has(word)) {
+                    wordCounts[word] = (wordCounts[word] || 0) + 1;
+                }
+            });
+            return Object.entries(wordCounts).map(([text, size]) => ({ text, size }));
+        }
+
+        function clearTable() {
+            const tbody = document.querySelector("#word-table tbody");
+            tbody.innerHTML = "";
+        }
+
+        function generateWordTable(words) {
+            words.sort((a, b) => b.size - a.size);
+            const topWords = words.slice(0, 20);
+
+            const tbody = document.querySelector("#word-table tbody");
+            topWords.forEach(word => {
+                const row = document.createElement("tr");
+                const wordCell = document.createElement("td");
+                wordCell.textContent = word.text;
+                const countCell = document.createElement("td");
+                countCell.textContent = word.size;
+                row.appendChild(wordCell);
+                row.appendChild(countCell);
+                tbody.appendChild(row);
+            });
+
+            const loadingDiv = document.getElementById('loading');
+            loadingDiv.style.display = 'none';
+            console.log('Table generated successfully');
+        }
+
+        function generateWordTableFromURL() {
+            const url = document.getElementById('url-input').value;
+            const loadingDiv = document.getElementById('loading');
+            loadingDiv.style.display = 'block';
+            loadingDiv.textContent = 'Fetching and processing the URL...';
+
+            clearTable();
+
+            fetchRenderedContent(url).then(text => {
+                const words = extractWords(text);
+                generateWordTable(words);
+            }).catch(error => {
+                console.error('Error fetching content:', error);
+                loadingDiv.textContent = 'Error fetching content. Please try again.';
+            });
+        }
+
+        function generateWordTableFromText() {
+            const text = document.getElementById('text-input').value;
+            const loadingDiv = document.getElementById('loading');
+            loadingDiv.style.display = 'block';
+            loadingDiv.textContent = 'Processing the text...';
+
+            clearTable();
+
+            const words = extractWords(text);
+            generateWordTable(words);
+        }
+    </script>
+</body>
+</html>
