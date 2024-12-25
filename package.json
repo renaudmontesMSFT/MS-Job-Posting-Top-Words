@@ -1,0 +1,23 @@
+{
+  "name": "topwords",
+  "version": "1.0.0",
+  "description": "Utility to get the 20 top words from a text or url",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renaudmontesMSFT/MS-Job-Posting-Top-Words.git"
+  },
+  "keywords": [
+    "topwords"
+  ],
+  "author": "Renaud Montes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/renaudmontesMSFT/MS-Job-Posting-Top-Words/issues"
+  },
+  "homepage": "https://github.com/renaudmontesMSFT/MS-Job-Posting-Top-Words#readme"
+}
