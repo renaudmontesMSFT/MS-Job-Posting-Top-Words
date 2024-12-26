@@ -19,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/renaudmontesMSFT/MS-Job-Posting-Top-Words/issues"
   },
-  "homepage": "https://github.com/renaudmontesMSFT/MS-Job-Posting-Top-Words#readme"
+  "homepage": "https://github.com/renaudmontesMSFT/MS-Job-Posting-Top-Words#readme",
+   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "puppeteer": "^23.11.1"
+  }
 }
