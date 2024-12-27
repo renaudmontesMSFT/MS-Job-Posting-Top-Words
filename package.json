@@ -4,7 +4,7 @@
   "description": "Utility to get the 20 top words from a text or url",
   "main": "server.js",
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha --timeout=80000 ./Tests/launchEdgeBrowser.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
