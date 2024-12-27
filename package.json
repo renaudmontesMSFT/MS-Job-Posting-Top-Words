@@ -4,8 +4,7 @@
   "description": "Utility to get the 20 top words from a text or url",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
-    //"test": "echo \"Error: no test specified\" && exit 1"   
+    "start": "node server.js",
   },
   "repository": {
     "type": "git",
