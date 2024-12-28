@@ -1,7 +1,8 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
 const cors = require('cors');
-//
+const useProxy = require('puppeteer-page-proxy');
+
 const app = express();
 const PORT = 8080;
 // const PORT = 3000;
@@ -19,6 +20,10 @@ app.get('/fetch-content', async (req, res) => {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         console.log(`Navigating to URL: ${url}`);
+
+        // Use proxy for the page
+        await useProxy(page, 'http://your-proxy-url:port');
+
         await page.goto(url, { waitUntil: 'networkidle2' });
 
         // Wait for a specific element to ensure the page is fully rendered
