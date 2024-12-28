@@ -22,7 +22,7 @@ app.get('/fetch-content', async (req, res) => {
         console.log(`Navigating to URL: ${url}`);
 
         // Use proxy for the page
-        await useProxy(page, 'http://your-proxy-url:port');
+        //await useProxy(page, 'http://127.0.0.10:8080');
 
         await page.goto(url, { waitUntil: 'networkidle2' });
 

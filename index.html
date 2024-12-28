@@ -56,7 +56,7 @@
 
         async function fetchRenderedContent(url) {
             console.log(`Fetching content from URL: ${url}`);
-            const response = await fetch(`http://localhost:3000/fetch-content?url=${encodeURIComponent(url)}`);
+            const response = await fetch(`http://localhost:8080/fetch-content?url=${encodeURIComponent(url)}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
